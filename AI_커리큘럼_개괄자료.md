@@ -5,7 +5,7 @@
 **대상**: 고등학생 (프로그래밍 초보~중급)  
 **기간**: 4회차 ~ 9회차 (5월 ~ 8월)  
 **실습 환경**: GitHub Codespaces + Jupyter Notebook  
-**기술 스택**: Python, Azure OpenAI SDK, LangChain  
+**기술 스택**: Python, Azure OpenAI SDK, Microsoft Agent Framework (MAF)  
 
 ---
 
@@ -14,22 +14,33 @@
 ### GitHub Codespaces 구성
 
 ```
-📁 ai-class-2026/
-├── 📁 .devcontainer/
-│   └── devcontainer.json       # Codespace 환경 설정
-├── 📁 notebooks/
-│   ├── 01_ai_basics.ipynb
-│   ├── 02_programming.ipynb
-│   ├── 03_agent_v1.ipynb
-│   ├── 04_agent_v2.ipynb
-│   └── 05_hackathon.ipynb
-├── 📁 homework/
-│   ├── hw1_prompt_engineer/
-│   ├── hw2_chatbot/
-│   ├── hw3_agent/
-│   └── hw4_rag/
-├── 📁 assets/
-├── requirements.txt
+📁 2026-pine-ai-workshop/
+├── 📁 .devcontainer/              # Codespace 환경 설정
+├── 📁 session-04-ai-basics/       # 4회차 — AI 기초 이론
+│   ├── slides/                    #   PPT 자료 (.pptx)
+│   ├── notebooks/                 #   실습 노트북 (.ipynb)
+│   │   ├── apim-openai-test.ipynb
+│   │   └── microgpt-tutorial.ipynb
+│   └── homework/                  #   숙제 자료
+├── 📁 session-05-ai-programming/  # 5회차 — AI 프로그래밍 실습
+│   ├── slides/
+│   ├── notebooks/
+│   └── homework/
+├── 📁 session-06-agent-v1/        # 6회차 — AI 에이전트 개발 1차
+│   ├── slides/
+│   ├── notebooks/
+│   └── homework/
+├── 📁 session-07-agent-v2/        # 7회차 — AI 에이전트 개발 2차
+│   ├── slides/
+│   ├── notebooks/
+│   └── homework/
+├── 📁 session-08-hackathon/       # 8회차 — 해커톤
+│   ├── guides/                    #   디자인 싱킹 가이드, 평가 기준
+│   └── templates/                 #   프로젝트 템플릿
+├── 📁 assets/                     # 공용 이미지/자료
+│   └── apim-setup-guide.md
+├── AI_커리큘럼_개괄자료.md
+├── pyproject.toml
 └── README.md
 ```
 
@@ -56,8 +67,7 @@
 
 ```
 openai>=1.30.0
-langchain>=0.2.0
-langchain-openai>=0.1.0
+microsoft-agent-framework>=0.1.0
 gradio>=4.0.0
 chromadb>=0.5.0
 tiktoken
@@ -136,17 +146,18 @@ python-dotenv
 
 **실습 1: Hello, AI! — 첫 API 호출**
 ```python
-from openai import AzureOpenAI
-import os
+from openai import OpenAI
 
-client = AzureOpenAI(
-    api_key=os.getenv("AZURE_OPENAI_KEY"),
-    api_version="2024-06-01",
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+API_KEY = "<학생별 API 키>"
+
+client = OpenAI(
+    api_key="placeholder",
+    base_url="https://apim-foundryproxy-dev.azure-api.net/foundry/gpt-5.4/",
+    default_headers={"api-key": API_KEY},
 )
 
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.4",
     messages=[
         {"role": "system", "content": "너는 친절한 고등학교 선생님이야."},
         {"role": "user", "content": "광합성이 뭐야? 쉽게 설명해줘."}
@@ -181,7 +192,7 @@ import gradio as gr
 
 def chat(message, history):
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.4",
         messages=[
             {"role": "system", "content": "여기에 페르소나 입력"},
             *[{"role": m["role"], "content": m["content"]} for m in history],
@@ -262,12 +273,12 @@ tools = [
 
 **구현 가이드**:
 ```python
-from openai import AzureOpenAI
+from openai import OpenAI
 
 def get_similarity(word1, word2):
-    """두 단어의 임베딩 유사도를 계산"""
+    """두 단어의 임베딩 유사도를 계산 (임베딩 API 필요)"""
     response = client.embeddings.create(
-        model="text-embedding-ada-002",
+        model="text-embedding-3-large",
         input=[word1, word2]
     )
     import numpy as np
@@ -325,7 +336,7 @@ class MemoryChat:
     def chat(self, user_input):
         self.memory.append({"role": "user", "content": user_input})
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-5.4",
             messages=[
                 {"role": "system", "content": "이전 대화를 기억하며 답변해."},
                 *list(self.memory)
@@ -471,7 +482,7 @@ class MemoryChat:
 ## 📚 참고 자료
 
 - [Azure OpenAI 공식 문서](https://learn.microsoft.com/azure/ai-services/openai/)
-- [LangChain 한국어 튜토리얼](https://wikidocs.net/book/14314)
+- [Microsoft Agent Framework 문서](https://github.com/microsoft/agent-framework)
 - [Prompt Engineering Guide](https://www.promptingguide.ai/kr)
 - [GitHub Codespaces 가이드](https://docs.github.com/codespaces)
 - [Gradio 공식 문서](https://www.gradio.app/docs)
