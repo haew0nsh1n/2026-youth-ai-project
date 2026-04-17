@@ -1,8 +1,10 @@
-# 🚀 고등학생 AI 교육 프로그램 커리큘럼 가이드
+# 🚀 2026 유스AI프로젝트:D — 커리큐럼 가이드
+
+> P.I.N.E. 2기 '나만의 AI 서비스 : PINE A+'
 
 ## 프로그램 개요
 
-**대상**: 고등학생 (프로그래밍 초보~중급)  
+**대상**: 17~19세 청소년 20명 (AI 분야 진로 확정 청소년)
 **기간**: 4회차 ~ 9회차 (5월 ~ 8월)  
 **실습 환경**: GitHub Codespaces + Jupyter Notebook  
 **기술 스택**: Python, Azure OpenAI SDK, Microsoft Agent Framework (MAF)  
@@ -14,13 +16,11 @@
 ### GitHub Codespaces 구성
 
 ```
-📁 2026-pine-ai-workshop/
+📁 2026-youth-ai-project/
 ├── 📁 .devcontainer/              # Codespace 환경 설정
 ├── 📁 session-04-ai-basics/       # 4회차 — AI 기초 이론
 │   ├── slides/                    #   PPT 자료 (.pptx)
 │   ├── notebooks/                 #   실습 노트북 (.ipynb)
-│   │   ├── apim-openai-test.ipynb
-│   │   └── microgpt-tutorial.ipynb
 │   └── homework/                  #   숙제 자료
 ├── 📁 session-05-ai-programming/  # 5회차 — AI 프로그래밍 실습
 │   ├── slides/
@@ -38,44 +38,53 @@
 │   ├── guides/                    #   디자인 싱킹 가이드, 평가 기준
 │   └── templates/                 #   프로젝트 템플릿
 ├── 📁 assets/                     # 공용 이미지/자료
-│   └── apim-setup-guide.md
 ├── AI_커리큘럼_개괄자료.md
 ├── pyproject.toml
 └── README.md
 ```
 
-### devcontainer.json 예시
+### devcontainer.json
+
+> 실제 설정은 [`.devcontainer/devcontainer.json`](.devcontainer/devcontainer.json)을 참고하세요.
 
 ```json
 {
-  "name": "AI Class 2026",
-  "image": "mcr.microsoft.com/devcontainers/python:3.11",
-  "postCreateCommand": "pip install -r requirements.txt",
+  "name": "2026-youth-ai-project",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
     "vscode": {
       "extensions": [
+        "ms-python.python",
         "ms-toolsai.jupyter",
-        "ms-python.python"
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
       ]
     }
   },
-  "forwardPorts": [8888, 7860]
+  "forwardPorts": [7860, 8888]
 }
 ```
 
-### requirements.txt
+### 패키지 관리 (uv + pyproject.toml)
 
-```
-openai>=1.30.0
-microsoft-agent-framework>=0.1.0
-gradio>=4.0.0
-chromadb>=0.5.0
-tiktoken
-matplotlib
-pandas
-requests
-beautifulsoup4
-python-dotenv
+> 의존성은 [`pyproject.toml`](pyproject.toml)에서 관리합니다. `uv sync`으로 설치합니다.
+
+```toml
+[project]
+dependencies = [
+    "matplotlib>=3.7",
+    "openai>=1.0",
+    "python-dotenv>=1.0",
+    "ipykernel>=6.0",
+    "gradio>=6.0",
+    "chromadb>=1.0",
+    "tiktoken>=0.12",
+    "numpy",
+    "pandas>=3.0",
+    "requests>=2.33",
+    "beautifulsoup4>=4.14",
+]
 ```
 
 ---

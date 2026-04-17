@@ -1,9 +1,9 @@
-# 🌲 2026 P.I.N.E AI Workshop
+# 🌲 2026 유스AI프로젝트:D
 
-> **유스AI프로젝트:D** — P.I.N.E. 2기 '나만의 AI 서비스 : PINE A+'
+> P.I.N.E. 2기 '나만의 AI 서비스 : PINE A+'
 
 **대상**: 17~19세 청소년 20명 (AI 분야 진로 확정 청소년)  
-**기간**: 총 9회기 (4월 ~ 8월)  
+**기간**: 4회차 ~ 9회차 (5월 ~ 8월)
 **실습 환경**: GitHub Codespaces + Jupyter Notebook  
 **기술 스택**: Python, Azure OpenAI SDK, Microsoft Agent Framework (MAF)  
 **협력**: KB데이타시스템 × 한국 Microsoft  
@@ -28,7 +28,7 @@
 ## 📁 프로젝트 구조
 
 ```
-2026-pine-ai-workshop/
+2026-youth-ai-project/
 ├── session-04-ai-basics/          # 4회차 — AI 기초 이론
 │   ├── slides/                    #   PPT 자료 (.pptx)
 │   ├── notebooks/                 #   실습 노트북 (.ipynb)
@@ -55,6 +55,8 @@
 │
 ├── .devcontainer/                 # Codespace 환경 설정
 ├── assets/                        # 공용 이미지/자료
+├── pyproject.toml                 # uv 패키지 의존성
+├── uv.lock                        # 패키지 락 파일
 └── AI_커리큘럼_개괄자료.md          # 커리큘럼 전체 개괄
 ```
 
@@ -98,5 +100,3 @@ response = client.chat.completions.create(
 )
 print(response.choices[0].message.content)
 ```
-
-> 인프라 구성 상세는 [`docs/apim-setup-guide.md`](docs/apim-setup-guide.md)를 참고하세요.
